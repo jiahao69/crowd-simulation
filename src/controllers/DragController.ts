@@ -33,6 +33,7 @@ export class DragController {
     canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
     canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
     canvas.addEventListener("mouseleave", this.onMouseLeave.bind(this));
+    canvas.addEventListener("click", this.onLeftClick.bind(this)); // 添加左键点击事件
   }
 
   private onMouseDown(event: MouseEvent) {
@@ -76,6 +77,13 @@ export class DragController {
     }
   }
 
+  private onLeftClick(event: MouseEvent) {
+    if (event.button === 0) {
+      // 左键点击
+      this.resetCursor(); // 还原鼠标样式
+    }
+  }
+
   private onDragChange() {
     // 触发拖拽变化事件
     this.app.stage.emit("drag-change", {
@@ -92,6 +100,11 @@ export class DragController {
     } else {
       canvas.style.cursor = "grab";
     }
+  }
+
+  private resetCursor() {
+    const canvas = this.app.canvas;
+    canvas.style.cursor = "default"; // 还原为默认鼠标样式
   }
 
   private getViewport(): {
