@@ -27,11 +27,6 @@ export class TeamRenderer {
     };
   }
 
-  // 更新配置
-  updateConfig(newConfig: Partial<TeamRendererConfig>) {
-    this.config = { ...this.config, ...newConfig };
-  }
-
   // 根据队伍人数和playerRadius计算实际的teamRadius
   private getTeamRadius(teamSize: number): number {
     if (teamSize <= 1) return this.config.playerRadius! * 1.2;
@@ -155,11 +150,6 @@ export class TeamRenderer {
     this.teams.clear();
   }
 
-  // 销毁渲染器
-  destroy() {
-    this.clear();
-  }
-
   // 根据人数创建玩家圆点
   private createPlayerDots(playersContainer: PIXI.Container, count: number) {
     playersContainer.removeChildren();
@@ -213,5 +203,10 @@ export class TeamRenderer {
     }
 
     return result;
+  }
+
+  // 销毁渲染器
+  destroy() {
+    this.clear();
   }
 }
