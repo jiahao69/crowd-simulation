@@ -80,7 +80,7 @@ export class DragController {
   private onLeftClick(event: MouseEvent) {
     if (event.button === 0) {
       // 左键点击
-      this.resetCursor(); // 还原鼠标样式
+      this.resetCursor();
     }
   }
 
@@ -104,7 +104,7 @@ export class DragController {
 
   private resetCursor() {
     const canvas = this.app.canvas;
-    canvas.style.cursor = "default"; // 还原为默认鼠标样式
+    canvas.style.cursor = "default";
   }
 
   private getViewport(): {
@@ -135,6 +135,6 @@ export class DragController {
     canvas.removeEventListener("mousemove", this.onMouseMove.bind(this));
     canvas.removeEventListener("mouseup", this.onMouseUp.bind(this));
     canvas.removeEventListener("mouseleave", this.onMouseLeave.bind(this));
-    canvas.removeEventListener("contextmenu", () => {});
+    canvas.removeEventListener("click", this.onLeftClick.bind(this));
   }
 }
