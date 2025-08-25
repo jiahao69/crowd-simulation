@@ -1,15 +1,15 @@
 import * as PIXI from "pixi.js";
 
 import type { PlayAreaData } from "../types/play-area";
-import type { SimulationConfig, Team } from "../types/simulation";
+import type { Team } from "../types/simulation";
 import { calculatePolygonArea } from "../utils/geometry";
 
 export class PlayAreaRenderer {
   private container: PIXI.Container;
   private playAreaGraphics: PIXI.Graphics;
   private playAreaData: PlayAreaData[] = [];
-  private simulationConfig: SimulationConfig | null = null;
   private teams: Team[] = [];
+  private minAreaPerPlayer: number = 0;
 
   // 为不同组分配颜色
   private groupColors = [
@@ -41,14 +41,14 @@ export class PlayAreaRenderer {
     this.renderPlayAreas();
   }
 
-  setSimulationConfig(config: SimulationConfig) {
-    this.simulationConfig = config;
-    this.renderPlayAreas(); // 更新渲染以反映新的配置
+  setMinAreaPerPlayer(minAreaPerPlayer: number) {
+    this.minAreaPerPlayer = minAreaPerPlayer;
+    this.renderPlayAreas();
   }
 
   updateTeams(teams: Team[]) {
     this.teams = teams;
-    this.renderPlayAreas(); // 更新渲染以反映新的队伍状态
+    this.renderPlayAreas();
   }
 
   /**
@@ -102,9 +102,7 @@ export class PlayAreaRenderer {
 
       // 判断是否需要显示拥挤警告（人均面积小于配置的最小值）
       const isOvercrowded =
-        this.simulationConfig &&
-        playerCount > 0 &&
-        areaPerPlayer < this.simulationConfig.minAreaPerPlayer * 10000; // 转换为平方厘米
+        playerCount > 0 && areaPerPlayer < this.minAreaPerPlayer * 10000;
 
       // 动块颜色：拥挤时为红色，否则为原组颜色
       const fillColor = isOvercrowded ? this.WARNING_COLOR : baseColor;
@@ -152,7 +150,7 @@ export class PlayAreaRenderer {
     const heightCm = bounds.maxY - bounds.minY;
     const areaCm2 = widthCm * heightCm;
 
-    // 转换为平方米（1 像素 = 1 厘米）
+    // 转换为平方米
     return areaCm2 * 0.0001;
   }
 

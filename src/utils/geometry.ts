@@ -18,7 +18,7 @@ export function calculatePolygonCenter(points: PlayAreaPoint[]) {
 /**
  * 计算多边形面积
  * @param points 多边形各个顶点坐标
- * @returns 多边形面积（平方厘米）
+ * @returns 多边形面积
  */
 export function calculatePolygonArea(points: PlayAreaPoint[]): number {
   // 使用鞋带公式(Shoelace formula)计算多边形面积

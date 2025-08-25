@@ -6,7 +6,7 @@ import { TeamRenderer } from "../renderers/TeamRenderer";
 import { DragController } from "../controllers/DragController";
 import { ZoomController } from "../controllers/ZoomController";
 import type { PlayAreaData } from "../types/play-area";
-import type { SimulationConfig, Team } from "../types/simulation";
+import type { Team } from "../types/simulation";
 
 export class PixiApp {
   private app!: PIXI.Application;
@@ -99,8 +99,8 @@ export class PixiApp {
     this.updateGrid();
   }
 
-  setSimulationConfig(config: SimulationConfig) {
-    this.playAreaRenderer.setSimulationConfig(config);
+  setMinAreaPerPlayer(minAreaPerPlayer: number) {
+    this.playAreaRenderer.setMinAreaPerPlayer(minAreaPerPlayer);
   }
 
   updateTeams(teams: Team[]) {

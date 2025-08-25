@@ -26,9 +26,6 @@ function App() {
 
   const [totalArea, setTotalArea] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [currentConfig, setCurrentConfig] = useState<SimulationConfig>({
-    ...initialConfig,
-  });
 
   const {
     isRunning,
@@ -60,7 +57,9 @@ function App() {
 
     if (pixiAppRef.current) {
       pixiAppRef.current.updatePlayAreaData(playAreaData.current);
-      setTotalArea(pixiAppRef.current.getTotalArea());
+
+      const totalArea = pixiAppRef.current.getTotalArea();
+      setTotalArea(totalArea);
     }
 
     reset();
@@ -76,8 +75,10 @@ function App() {
     const blockData = await jsonImport<BlockData[]>();
 
     if (pixiAppRef.current) {
-      const playAreaData = pixiAppRef.current.getPlayAreaData();
-      const simulationBlockData = await mergeBlockData(playAreaData, blockData);
+      const simulationBlockData = mergeBlockData(
+        playAreaData.current,
+        blockData
+      );
 
       setBlockData(simulationBlockData);
     }
@@ -90,31 +91,28 @@ function App() {
       <PixiCanvas
         onInitialized={(app) => {
           pixiAppRef.current = app;
-          // 设置初始配置
-          app.setSimulationConfig(currentConfig);
+          app.setMinAreaPerPlayer(initialConfig.minAreaPerPlayer);
         }}
       />
 
       <SimulationControlPanel
         visible={visible}
-        initialConfig={currentConfig}
+        initialConfig={initialConfig}
         isRunning={isRunning}
         onConfigChange={(config) => {
-          setCurrentConfig(config);
           updateConfig(config);
           if (pixiAppRef.current) {
-            pixiAppRef.current.setSimulationConfig(config);
+            pixiAppRef.current.setMinAreaPerPlayer(config.minAreaPerPlayer);
           }
         }}
         onStart={start}
         onReset={() => {
           reset();
-          // 重置配置为初始值
-          const resetConfig = { ...initialConfig };
-          setCurrentConfig(resetConfig);
-          updateConfig(resetConfig);
+          updateConfig(initialConfig);
           if (pixiAppRef.current) {
-            pixiAppRef.current.setSimulationConfig(resetConfig);
+            pixiAppRef.current.setMinAreaPerPlayer(
+              initialConfig.minAreaPerPlayer
+            );
           }
         }}
       />

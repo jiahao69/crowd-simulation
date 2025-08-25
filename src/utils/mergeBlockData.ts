@@ -1,7 +1,7 @@
 import type { PlayAreaData } from "../types/play-area";
 import { calculatePolygonCenter } from "./geometry";
 
-export const mergeBlockData = async (
+export const mergeBlockData = (
   playAreaData: PlayAreaData[],
   blockData: any[]
 ) => {
