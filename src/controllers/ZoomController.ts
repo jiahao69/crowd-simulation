@@ -20,7 +20,7 @@ export class ZoomController {
     this.app = app;
     this.container = container;
     this.config = {
-      minScale: config.minScale ?? 0.1,
+      minScale: config.minScale ?? 0.3,
       maxScale: config.maxScale ?? 5,
       zoomSpeed: config.zoomSpeed ?? 0.1,
     };
