@@ -101,7 +101,7 @@ export class DragController {
     height: number;
     scale: number;
   } {
-    const scale = this.container.scale.x; // 假设x和y缩放相同
+    const scale = this.container.scale.x;
     const screenSize = {
       width: this.app.renderer.width,
       height: this.app.renderer.height,

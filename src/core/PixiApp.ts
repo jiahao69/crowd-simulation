@@ -87,7 +87,7 @@ export class PixiApp {
     this.worldContainer.scale.set(scale);
     this.worldContainer.x = screenWidth / 2 - playAreaCenterX * scale;
     this.worldContainer.y =
-      screenHeight / 2 - playAreaCenterY * scale + topMargin / 2; // 向下偏移
+      screenHeight / 2 - playAreaCenterY * scale + topMargin / 2;
 
     this.zoomController.syncScale(scale);
     this.updateGrid();

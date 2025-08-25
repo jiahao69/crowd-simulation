@@ -1,9 +1,5 @@
 import * as PIXI from "pixi.js";
 
-export interface CanvasConfig {
-  backgroundColor?: number;
-}
-
 export class CanvasRenderer {
   private app: PIXI.Application;
   private container: HTMLElement;
@@ -20,12 +16,10 @@ export class CanvasRenderer {
     this.app.stage.addChild(this.mainContainer);
   }
 
-  async initialize(config: CanvasConfig = {}) {
-    const { backgroundColor = "0x1a1a1a" } = config;
-
+  async initialize() {
     // 初始化应用
     await this.app.init({
-      background: backgroundColor,
+      background: 0x1a1a1a,
       width: this.container.clientWidth,
       height: this.container.clientHeight,
       antialias: true,
@@ -57,11 +51,11 @@ export class CanvasRenderer {
     resizeObserver.observe(this.container);
   }
 
-  getApp(): PIXI.Application {
+  getApp() {
     return this.app;
   }
 
-  getMainContainer(): PIXI.Container {
+  getMainContainer() {
     return this.mainContainer;
   }
 

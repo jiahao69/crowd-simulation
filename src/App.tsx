@@ -86,7 +86,7 @@ function App() {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+    <>
       <PixiCanvas
         onInitialized={(app) => {
           pixiAppRef.current = app;
@@ -144,7 +144,7 @@ function App() {
           导入PlayAreaBlockData.json
         </Button>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -42,9 +42,6 @@ export class ZoomController {
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    // 计算鼠标在世界坐标中的位置（缩放前）
-    const worldPos = this.container.toLocal(new PIXI.Point(mouseX, mouseY));
-
     // 计算缩放因子
     const scaleFactor = event.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
     const newScale = Math.max(
@@ -53,20 +50,24 @@ export class ZoomController {
     );
 
     if (newScale !== this.currentScale) {
+      // 计算缩放前鼠标相对于容器的位置
+      const oldScale = this.currentScale;
+      const oldMouseX = (mouseX - this.container.position.x) / oldScale;
+      const oldMouseY = (mouseY - this.container.position.y) / oldScale;
+
       // 应用缩放
       this.currentScale = newScale;
       this.container.scale.set(this.currentScale);
 
-      // 计算鼠标在世界坐标中的新位置（缩放后）
-      const newWorldPos = this.container.toLocal(
-        new PIXI.Point(mouseX, mouseY)
-      );
+      // 计算缩放后鼠标相对于容器的位置
+      const newMouseX =
+        (mouseX - this.container.position.x) / this.currentScale;
+      const newMouseY =
+        (mouseY - this.container.position.y) / this.currentScale;
 
-      // 调整容器位置，使鼠标指向的世界坐标点保持不变
-      this.container.position.x +=
-        (newWorldPos.x - worldPos.x) * this.currentScale;
-      this.container.position.y +=
-        (newWorldPos.y - worldPos.y) * this.currentScale;
+      // 调整容器位置，使鼠标指向的点保持不变
+      this.container.position.x += (newMouseX - oldMouseX) * this.currentScale;
+      this.container.position.y += (newMouseY - oldMouseY) * this.currentScale;
 
       // 触发缩放事件
       this.onZoomChange();
