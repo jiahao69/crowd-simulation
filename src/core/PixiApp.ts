@@ -1,10 +1,10 @@
 import * as PIXI from "pixi.js";
 import { CanvasRenderer } from "../renderers/CanvasRenderer";
 import { GridRenderer } from "../renderers/GridRenderer";
-import { PlayAreaRenderer } from "../renderers/PlayAreaRenderer";
-import { TeamRenderer } from "../renderers/TeamRenderer";
 import { DragController } from "../controllers/DragController";
 import { ZoomController } from "../controllers/ZoomController";
+import { PlayAreaRenderer } from "../renderers/PlayAreaRenderer";
+import { TeamRenderer } from "../renderers/TeamRenderer";
 import type { PlayAreaData } from "../types/play-area";
 import type { Team } from "../types/simulation";
 
@@ -52,7 +52,9 @@ export class PixiApp {
     // 6.初始化绘制队伍模块
     this.teamRenderer = new TeamRenderer(this.worldContainer);
 
+    // 首次更新网格
     this.updateGrid();
+    // 在缩放，拖拽，窗口大小变化时更新网格
     this.setupEventListeners();
   }
 
@@ -67,6 +69,7 @@ export class PixiApp {
     window.addEventListener("resize", () => this.updateGrid());
   }
 
+  // 将画布中心移动到动块区域中心
   private centerToPlayArea() {
     const bounds = this.playAreaRenderer.getPlayAreaBounds();
     if (!bounds) return;
@@ -99,24 +102,20 @@ export class PixiApp {
     this.updateGrid();
   }
 
-  setMinAreaPerPlayer(minAreaPerPlayer: number) {
-    this.playAreaRenderer.setMinAreaPerPlayer(minAreaPerPlayer);
-  }
-
-  updateTeams(teams: Team[]) {
-    this.playAreaRenderer.updateTeams(teams);
-  }
-
-  getPlayAreaData() {
-    return this.playAreaRenderer.getPlayAreaData();
-  }
-
   getTotalArea() {
     return this.playAreaRenderer.getTotalArea();
   }
 
   getTeamRenderer() {
     return this.teamRenderer;
+  }
+
+  setMinAreaPerPlayer(minAreaPerPlayer: number) {
+    this.playAreaRenderer.setMinAreaPerPlayer(minAreaPerPlayer);
+  }
+
+  updateTeams(teams: Team[]) {
+    this.playAreaRenderer.updateTeams(teams);
   }
 
   destroy() {

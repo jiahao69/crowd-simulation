@@ -34,11 +34,6 @@ const StatisticsPanel: React.FC<StatisticsPanelProps> = ({
         top: 15,
         right: 15,
         width: 380,
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
-        backdropFilter: "blur(10px)",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-        borderRadius: 8,
-        border: "1px solid rgba(0, 0, 0, 0.06)",
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

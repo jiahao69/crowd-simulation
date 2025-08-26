@@ -25,9 +25,6 @@ export class PlayAreaRenderer {
     0xff9f43, // 橙色
   ];
 
-  // 拥挤警告颜色
-  private readonly WARNING_COLOR = 0xff0000; // 红色
-
   constructor(container: PIXI.Container) {
     this.container = container;
 
@@ -105,7 +102,7 @@ export class PlayAreaRenderer {
         playerCount > 0 && areaPerPlayer < this.minAreaPerPlayer * 10000;
 
       // 动块颜色：拥挤时为红色，否则为原组颜色
-      const fillColor = isOvercrowded ? this.WARNING_COLOR : baseColor;
+      const fillColor = isOvercrowded ? 0xff0000 : baseColor;
 
       // 绘制多边形
       this.playAreaGraphics.moveTo(
@@ -141,24 +138,7 @@ export class PlayAreaRenderer {
     });
   }
 
-  // 计算场地总面积
-  getTotalArea() {
-    const bounds = this.getPlayAreaBounds();
-    if (!bounds) return 0;
-
-    const widthCm = bounds.maxX - bounds.minX;
-    const heightCm = bounds.maxY - bounds.minY;
-    const areaCm2 = widthCm * heightCm;
-
-    // 转换为平方米
-    return areaCm2 * 0.0001;
-  }
-
   getPlayAreaBounds() {
-    if (this.playAreaData.length === 0) {
-      return null;
-    }
-
     let minX = Infinity;
     let minY = Infinity;
     let maxX = -Infinity;
@@ -176,8 +156,17 @@ export class PlayAreaRenderer {
     return { minX, minY, maxX, maxY };
   }
 
-  getPlayAreaData() {
-    return this.playAreaData;
+  // 计算场地总面积
+  getTotalArea() {
+    const bounds = this.getPlayAreaBounds();
+    if (!bounds) return 0;
+
+    const widthCm = bounds.maxX - bounds.minX;
+    const heightCm = bounds.maxY - bounds.minY;
+    const areaCm2 = widthCm * heightCm;
+
+    // 转换为平方米
+    return areaCm2 * 0.0001;
   }
 
   destroy() {
